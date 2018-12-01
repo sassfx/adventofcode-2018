@@ -1,11 +1,17 @@
 import { Puzzle } from '../puzzle'
+import { FrequencyCalculator } from './frequency-calculator'
+import { FileReader } from '../../utils'
 
 export class One implements Puzzle {
   calculatePartOne(): number {
-    return 1
+    const frequencyText = FileReader.ReadFile('./puzzles/one/data.txt')
+    const calc = new FrequencyCalculator()
+    return calc.calculateFrequency(frequencyText, '\n')
   }
 
   calculatePartTwo(): number {
-    return 2
+    const frequencyText = FileReader.ReadFile('./puzzles/one/data.txt')
+    const calc = new FrequencyCalculator()
+    return calc.calculateFirstFrequencyReachedTwice(frequencyText, '\n')
   }
 }
