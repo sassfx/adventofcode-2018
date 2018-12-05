@@ -1,4 +1,4 @@
-export interface Puzzle {
-  calculatePartOne(): number;
-  calculatePartTwo(): number;
+export interface Puzzle<T, U> {
+  calculatePartOne(): T;
+  calculatePartTwo(): U;
 }

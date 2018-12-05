@@ -1,6 +1,6 @@
 import { 
   Puzzle,
-  One,
+  Two,
  } from './puzzles'
 
 function runPuzzle(puzzle: Puzzle) {
@@ -10,4 +10,4 @@ function runPuzzle(puzzle: Puzzle) {
   console.log(`Part Two: ${partTwo}`)
 }
 
-runPuzzle(new One())
+runPuzzle(new Two())
