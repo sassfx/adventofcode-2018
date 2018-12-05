@@ -1,13 +1,13 @@
 import { 
   Puzzle,
-  Two,
+  Three,
  } from './puzzles'
 
-function runPuzzle(puzzle: Puzzle) {
+function runPuzzle<T, U>(puzzle: Puzzle<T, U>) {
   const partOne = puzzle.calculatePartOne()
   console.log(`Part One: ${partOne}`)
   const partTwo = puzzle.calculatePartTwo()
   console.log(`Part Two: ${partTwo}`)
 }
 
-runPuzzle(new Two())
+runPuzzle(new Three())

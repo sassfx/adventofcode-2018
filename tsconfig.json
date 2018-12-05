@@ -2,6 +2,7 @@
   "compilerOptions": {
       "baseUrl": "./src",
       "downlevelIteration": true,
-      "target": "esnext"
-  }
+      "target": "esnext",
+      "moduleResolution": "node"
+    }
 }
