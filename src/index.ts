@@ -1,6 +1,6 @@
 import { 
   Puzzle,
-  Three,
+  Four,
  } from './puzzles'
 
 function runPuzzle<T, U>(puzzle: Puzzle<T, U>) {
@@ -10,4 +10,4 @@ function runPuzzle<T, U>(puzzle: Puzzle<T, U>) {
   console.log(`Part Two: ${partTwo}`)
 }
 
-runPuzzle(new Three())
+runPuzzle(new Four())
