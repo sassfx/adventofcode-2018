@@ -1,15 +1,14 @@
 import { Puzzle } from '../puzzle'
-import { FileReader } from '../../utils'
-
-const nodesText = FileReader.ReadFile('./puzzles/eight/nodes.txt')
-const input = nodesText.split(' ').map(x => parseInt(x.trim()))
+import { playMarbles } from './marble-list'
 
 export class Nine implements Puzzle<number, number> {
   calculatePartOne(): number {
-    return 1
+    const scores = playMarbles(463 , 71787)
+    return Math.max(...scores)
   }
 
   calculatePartTwo(): number {
-    return 2
+    const scores = playMarbles(463 , 7178700)
+    return Math.max(...scores)
   }
 }
