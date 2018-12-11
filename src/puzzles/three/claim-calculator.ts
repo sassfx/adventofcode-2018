@@ -1,3 +1,5 @@
+import { create2dArray } from '../../utils'
+
 const regex = /#(?<idString>\d+)\s@\s(?<leftString>\d+),(?<topString>\d+):\s(?<widthString>\d+)x(?<heightString>\d+)/g
 
 export class ClaimCalculator {
@@ -44,7 +46,7 @@ function doesClaimOverlap(claim:Claim, claimSpace:number[][]):boolean {
 }
 
 function createClaimSpace(claims: Claim[], size: number):number[][] {
-  const claimSpace = create2dArray(size)
+  const claimSpace = create2dArray(size, size, () => 0)
 
   for(let claim of claims) {
     for (let i = claim.left; i < claim.left + claim.width; i++) {
@@ -82,8 +84,4 @@ function getAllClaims(claims:string):Claim[] {
   }
 
   return result
-}
-
-function create2dArray(size:number):number[][] {
-  return Array.apply(null, new Array(size)).map(() => Array.apply(null, new Array(size)).map(x => 0))
 }

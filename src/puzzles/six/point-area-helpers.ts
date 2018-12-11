@@ -1,3 +1,5 @@
+import { create2dArray } from '../../utils'
+
 export type Point = {
   label:string,
   x:number,
@@ -8,7 +10,7 @@ export function findAreaWithTotalDistanceToAllPointsLessThanThreshold(points:Poi
   const xSize = Math.max(...points.map(p => p.x))
   const ySize = Math.max(...points.map(p => p.y))
 
-  const grid = create2dArray(xSize, ySize)
+  const grid = create2dArray(xSize, ySize, () => '')
 
   let count = 0
 
@@ -94,7 +96,7 @@ function createMinimumDistanceGrid(points:Point[]) {
   const xSize = Math.max(...points.map(p => p.x))
   const ySize = Math.max(...points.map(p => p.y))
 
-  const grid = create2dArray(xSize, ySize)
+  const grid = create2dArray(xSize, ySize, () => '')
 
   for (let j = 0; j < grid.length; j++) {
     for (let i = 0; i < grid[0].length; i++) {
@@ -119,8 +121,4 @@ function createMinimumDistanceGrid(points:Point[]) {
 
 function calculateManhattanDistance(first:Point, second:Point):number {
   return Math.abs(first.x - second.x) + Math.abs(first.y - second.y)
-}
-
-function create2dArray(xSize:number, ySize:number):string[][] {
-  return Array.apply(null, new Array(ySize + 1)).map(() => Array.apply(null, new Array(xSize + 1)).map(x => ''))
 }

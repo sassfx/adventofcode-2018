@@ -1,3 +1,5 @@
+import { create2dArray } from '../../utils'
+
 export function calculatePowerLevel(x:number, y:number, serial:number):number {
   const rackId = x + 10
   let powerLevel = rackId * y
@@ -5,10 +7,6 @@ export function calculatePowerLevel(x:number, y:number, serial:number):number {
   powerLevel *= rackId
   powerLevel = Math.floor((powerLevel % 1000) / 100)
   return powerLevel - 5
-}
-
-function create2dArray(xSize:number, ySize:number, valueFunction:(x:number, y:number)=>number):number[][] {
-  return Array.apply(null, new Array(ySize + 1)).map((_, j) => Array.apply(null, new Array(xSize + 1)).map((_, i) => valueFunction(i, j)))
 }
 
 export function getCellWithHighestFuel(xSize:number, ySize:number, serial:number):{ x:number, y:number } {
