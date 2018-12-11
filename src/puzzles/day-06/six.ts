@@ -22,7 +22,7 @@ export class Six implements Puzzle<number, number> {
 
 function readPoints():Point[] {
   const points:Point[] = []
-  const pointsText = FileReader.ReadFile('./puzzles/six/points.txt')
+  const pointsText = FileReader.ReadFile(6, 'points')
 
   const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
   let match = pointsRegex.exec(pointsText)

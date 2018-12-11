@@ -2,7 +2,7 @@ import { Puzzle } from '../puzzle'
 import { FileReader } from '../../utils'
 import { parseInstructions, timeInstructions } from './instruction-parser'
 
-const instructions = FileReader.ReadFile('./puzzles/seven/instructions.txt')
+const instructions = FileReader.ReadFile(7, 'instructions')
 
 export class Seven implements Puzzle<string, number> {
   calculatePartOne(): string {

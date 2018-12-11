@@ -2,7 +2,7 @@ import { Puzzle } from '../puzzle'
 import { FileReader } from '../../utils'
 import { Point, runPointsUntilAllAreNextToEachOther, areAllPointsNextTAtLeastOneOtherPoint, drawPoints } from './point-tracker'
 
-const pointsText = FileReader.ReadFile('./puzzles/ten/points.txt')
+const pointsText = FileReader.ReadFile(10, 'points')
 const pointsRegex = /position=<(?<xPosition>\s*(?:-?)\d+),(?<yPosition>\s*(?:-?)\d+)>\svelocity=<(?<xVelocity>\s*(?:-?)\d+),(?<yVelocity>\s*(?:-?)\d+)>/g
 
 function getPointsFromText():Point[] {
