@@ -1,6 +1,6 @@
 import { 
   Puzzle,
-  Nine as Current,
+  Eleven as Current,
  } from './puzzles'
 
 function runPuzzle<T, U>(puzzle: Puzzle<T, U>) {
