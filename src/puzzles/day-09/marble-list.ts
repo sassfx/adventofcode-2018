@@ -22,9 +22,6 @@ class MarbleNode {
 }
 
 export class MarbleList {
-  private currentMarbleIndex:number = 0
-  private marbles:number[] = [0]
-
   private currentMarble:MarbleNode
 
   constructor() {

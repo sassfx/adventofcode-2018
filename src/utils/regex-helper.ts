@@ -3,6 +3,7 @@ export function textToArray<T>(input:string, regex:RegExp, groupFunction:(groups
   let result:T[] = []
   while (match) {
     result.push(groupFunction(match.groups))
+    match = regex.exec(input)
   }
 
   regex.lastIndex = -1
