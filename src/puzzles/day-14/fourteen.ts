@@ -1,5 +1,5 @@
 import { Puzzle } from '../puzzle'
-import { createNewRecipes, howManyRecipiesBeforeArray } from './recipe-creator'
+import { createNewRecipes, howManyRecipiesBefore } from './recipe-creator'
 
 export class Fourteen implements Puzzle<string, number> {
   calculatePartOne(): string {
@@ -7,6 +7,6 @@ export class Fourteen implements Puzzle<string, number> {
   }
 
   calculatePartTwo(): number {
-    return howManyRecipiesBeforeArray('880751')
+    return howManyRecipiesBefore('880751')
   }
 }

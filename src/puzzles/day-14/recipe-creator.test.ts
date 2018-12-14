@@ -1,4 +1,4 @@
-import { createNewRecipes, howManyRecipiesBeforeArray } from './recipe-creator'
+import { createNewRecipes, howManyRecipiesBefore } from './recipe-creator'
 
 describe('RecipeCreator', () => {
   describe('createNewRecipes', () => {
@@ -11,10 +11,10 @@ describe('RecipeCreator', () => {
 
   describe('howManyRecipiesBefore', () => {
     it('calculates correct numbers', () => {
-      expect(howManyRecipiesBeforeArray('51589')).toBe(9)
-      expect(howManyRecipiesBeforeArray('01245')).toBe(5)
-      expect(howManyRecipiesBeforeArray('92510')).toBe(18)
-      expect(howManyRecipiesBeforeArray('59414')).toBe(2018)
+      expect(howManyRecipiesBefore('51589')).toBe(9)
+      expect(howManyRecipiesBefore('01245')).toBe(5)
+      expect(howManyRecipiesBefore('92510')).toBe(18)
+      expect(howManyRecipiesBefore('59414')).toBe(2018)
     })
   })
 })
