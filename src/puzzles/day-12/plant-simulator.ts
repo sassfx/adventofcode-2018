@@ -207,7 +207,7 @@ export function runPlantSimulation(inputText:string, generations:number):number 
 
   const state = new PlantState(initialState)
 
-  for (let i = 0; i++; i < generations) {
+  for (let i = 0; i < generations; i++) {
     state.step(rules)
   }
 

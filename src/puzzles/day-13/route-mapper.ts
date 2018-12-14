@@ -19,17 +19,6 @@ class Cart {
 
   next() {
     const result = this.currentNode.advance(this)
-
-    // if (!result) {
-    //   console.log(this.previousNode)
-    //   console.log(this.currentNode)
-    // }
-
-    // if (!result.nextNode) {
-    //   console.log(this.previousNode)
-    //   console.log(this.currentNode)
-    // }
-
     this.previousNode = this.currentNode
     this.currentNode = result.nextNode
     this.nextIntersectionDirection = result.nextIntersectionDirection
@@ -273,31 +262,165 @@ function parseRoute(input:string):Cart[] {
   return carts
 }
 
-function calculateCollsion(carts:Cart[]) {
-  for(let cart of carts) {
-    const others = carts.filter(x => x.currentNode === cart.currentNode)
-    if (others.length > 1) {
-      return cart.currentNode
+function iterateRoute(input:string):Cart[] {
+  const inputGrid:string[][] = input.split('\n').map(line => line.split(''))
+  const routeGrid:IRouteNode[][] = create2dArray(inputGrid.length, inputGrid[0].length, () => null)
+
+  const carts:Cart[] = []
+
+  for (let j = 0; j < inputGrid.length; j++) {
+    const row = inputGrid[j]
+
+    for (let i = 0; i < row.length; i++) {
+      const token = row[i]
+      let node:IRouteNode = null
+      switch(token) {
+        case '-':
+        case '>':
+        case '<':
+          node = new HorizontalPathNode()
+          break;
+        case '|':
+        case '^':
+        case 'v':
+          node = new VerticalPathNode()
+          break;
+        case '/':
+        case '\\':
+          node = new TurnNode()
+          break;
+        case '+':
+          node = new IntersectionNode()
+          break;
+      }
+
+      if (node) {
+        node.x = i
+        node.y = j
+        routeGrid[j][i] = node
+      }
     }
   }
-  return null
+
+  for (let j = 0; j < routeGrid.length; j++) {
+    const row = routeGrid[j]
+
+    for (let i = 0; i < row.length; i++) {
+      const node = row[i]
+
+      if (node instanceof HorizontalPathNode) {
+        const horizontal = node as HorizontalPathNode
+        horizontal.leftNode = row[i - 1]
+        horizontal.rightNode = row[i + 1]
+
+        const token = inputGrid[j][i]
+        if (token === '>') {
+          const leftRightCart = new Cart(horizontal, horizontal.leftNode)
+          carts.push(leftRightCart)
+        }
+        
+        if (token === '<') {
+          const rightLeftCart = new Cart(horizontal, horizontal.rightNode)
+          carts.push(rightLeftCart)
+        }
+      }
+
+      if (node instanceof VerticalPathNode) {
+        const vertical = node as VerticalPathNode
+        vertical.downNode = routeGrid[j + 1][i]
+        vertical.upNode = routeGrid[j - 1][i]
+
+        const token = inputGrid[j][i]
+        if (token === '^') {
+          const downUpCart = new Cart(vertical, vertical.downNode)
+          carts.push(downUpCart)
+        }
+        
+        if (token === 'v') {
+          const upDownCart = new Cart(vertical, vertical.upNode)
+          carts.push(upDownCart)
+        }
+      }
+
+      if (node instanceof TurnNode) {
+        const turn = node as TurnNode
+
+        let horizontal = routeGrid[j][i - 1]
+        if (!(horizontal instanceof HorizontalPathNode) && !(horizontal instanceof IntersectionNode)) {
+          horizontal = routeGrid[j][i + 1]
+        }
+
+        let vertical = routeGrid[j - 1] ? routeGrid[j - 1][i] : null
+        if (!(vertical instanceof VerticalPathNode) && !(vertical instanceof IntersectionNode)) {
+          vertical = routeGrid[j + 1][i]
+        }
+
+        turn.horizontalNode = horizontal
+        turn.verticalNode = vertical
+      }
+
+      if (node instanceof IntersectionNode) {
+        const intersection = node as IntersectionNode
+        intersection.leftNode = row[i - 1]
+        intersection.rightNode = row[i + 1]
+        intersection.downNode = routeGrid[j + 1][i]
+        intersection.upNode = routeGrid[j - 1][i]
+      }
+    }
+  }
+
+  return carts
 }
 
+
 export function runRouteUntilFirstCrash(input:string):{x:number, y:number} {
-  const carts = parseRoute(input)
-  let collision = calculateCollsion(carts)
+  const carts = iterateRoute(input)
+  let collision = null
   let count = 0
 
-  console.log(carts)
-  return
   while (!collision) {
-    carts.forEach(x => x.next())
-    collision = calculateCollsion(carts)
-    count ++
-    if (count % 1000 === 0) {
-      console.log(count)
+    for (let cart of carts) {
+      cart.next()
+      const others = carts.filter(x => x.currentNode === cart.currentNode)
+      if (others.length > 1) {
+        collision = cart.currentNode
+        break;
+      }
     }
+    count++
+    carts.sort((a, b) => {
+      if (a.currentNode.y === b.currentNode.y) {
+        return a.currentNode.x - b.currentNode.x
+      }
+
+      return a.currentNode.y - b.currentNode.y
+    })
   }
 
   return { x: collision.x, y: collision.y}
+}
+
+export function runRouteUntilOnlyOneCartLeft(input:string):{x:number, y:number} {
+  let carts = iterateRoute(input)
+
+  while (carts.length > 1) {
+    let deadCarts:Cart[] = []
+    for (let cart of carts) {
+        cart.next()
+        const others = carts.filter(x => x.currentNode === cart.currentNode)
+        if (others.length > 1) {
+          deadCarts = deadCarts.concat(others)
+        }
+    }
+    carts = carts.filter(x => deadCarts.indexOf(x) === -1)
+    carts.sort((a, b) => {
+      if (a.currentNode.y === b.currentNode.y) {
+        return a.currentNode.x - b.currentNode.x
+      }
+
+      return a.currentNode.y - b.currentNode.y
+    })
+  }
+
+  return { x: carts[0].currentNode.x, y: carts[0].currentNode.y}
 }
